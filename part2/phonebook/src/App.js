@@ -1,24 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Persons from './components/persons'
+import Filter from './components/filter'
+import Add from './components/add'
+import axios from 'axios'
 
 const App = () => {
-
-
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [ persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('Add a new name')
   const [ newNumber, setNewNumber ] = useState('Add a new number')
+  const [ showAll, setShowAll ] = useState(true)
+  const [ search, setSearch ] = useState("")
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
+  console.log('render', persons.length, 'persons')
 
   const addName = (event) => {
     event.preventDefault()
     const nameObject = {
       name: newName,
       number: newNumber,
-      id: persons.length +1
+      id: persons.length +1,
+      matchesSearch: true
     }
     if (persons.find((person) => person.name === newName)) {
       alert(`${newName} is already in the phonebook`);
@@ -40,30 +50,25 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const personsToShow = showAll
+    ? persons
+    : persons.filter((person) =>
+        person.name.toLowerCase().includes(search.toLowerCase())
+      )
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    setShowAll(false);
+    }
+
   return (
 
     <div>
       <h2>Phonebook</h2>
-      <h2>Add a new number</h2>
-      <form onSubmit={addName}>
-        <div>
-          Name: <input
-                  value={newName}
-                  onChange={handleNewNameChange}
-                  />
-        </div>
-        <div>
-          Number: <input
-                  value={newNumber}
-                  onChange={handleNewNumberChange}
-                  />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter search = {search} handleSearch = {handleSearch}/>
+      <Add addName = {addName} handleNewNameChange = {handleNewNameChange} newNumber = {newNumber} handleNewNumberChange = {handleNewNumberChange}/>
       <h2>Numbers</h2>
-        <Persons persons={persons}/>
+        <Persons personsToShow={personsToShow}/>
     </div>
   )
 }

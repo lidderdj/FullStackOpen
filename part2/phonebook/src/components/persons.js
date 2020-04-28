@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Persons = ({persons}) => {
+const Persons = ({personsToShow}) => {
   return (
     <div>
-      {persons.map(person => (
+      {personsToShow.map((person) => (
         <div key={person.id}>
           <p>Name: {person.name} number: {person.number}</p>
         </div>
