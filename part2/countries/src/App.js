@@ -6,6 +6,7 @@ import Filter from './components/filter'
 const App = () => {
   const [ countries, setCountries] = useState([])
   const [ search, setSearch ] = useState("")
+  const [ singleCountry, setsingleCountry ] = useState([])
 
   useEffect(() => {
     console.log('effect')
@@ -23,11 +24,16 @@ const App = () => {
     console.log(countries.length)
     }
 
+  const handleShow = (country) => {
+    setsingleCountry(country)
+    setCountries([country])
+  }
+
   if (countries.length === 1) {
     return (
       <div>
         <Filter search = {search} handleSearch = {handleSearch}/>
-        <CountryDetail countries={countries[0]}/>
+        <CountryDetail singleCountry={singleCountry}/>
       </div>
     )
     }
@@ -38,7 +44,7 @@ const App = () => {
           <div>
             {countries.map((country) => (
               <div key={country.alpha3Code}>
-                <p>{country.name} <button onClick='button'> Show </button></p>
+                <p>{country.name} <button onClick={() => handleShow(country)}> Show </button></p>
               </div>
             ))}
           </div>
