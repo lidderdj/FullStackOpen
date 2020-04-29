@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import CountryDetail from './components/countryDetail'
 import Filter from './components/filter'
+import getWeather from './components/getWeather'
 
 const App = () => {
   const [ countries, setCountries] = useState([])
