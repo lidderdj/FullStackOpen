@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/persons'
 import Filter from './components/filter'
 import Add from './components/add'
-import axios from 'axios'
+import nameService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -12,15 +12,12 @@ const App = () => {
   const [ search, setSearch ] = useState("")
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    nameService
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
-  console.log('render', persons.length, 'persons')
 
   const addName = (event) => {
     event.preventDefault()
@@ -33,12 +30,16 @@ const App = () => {
     if (persons.find((person) => person.name === newName)) {
       alert(`${newName} is already in the phonebook`);
     } else {
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-    setNewNumber('')
-    console.log([persons])
+
+      nameService
+           .create(nameObject)
+           .then(response => {
+             setPersons(persons.concat(response.data))
+             setNewName('')
+             setNewNumber('')
+           })
+      }
   }
-}
 
   const handleNewNameChange = (event) => {
     console.log(event.target.value)
