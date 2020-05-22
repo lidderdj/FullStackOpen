@@ -1,14 +1,9 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Bob",
-      "number": "123",
-      "id": 2,
+      "name": "",
+      "number": "777756555",
+      "id": 1,
       "matchesSearch": true
     }
   ]

@@ -41,6 +41,13 @@ const App = () => {
       }
   }
 
+  const deleteName = ({id}) => {
+      nameService
+           .deletePerson(id)
+           const newPersons = persons.filter((person) => person.id !== id)
+           setPersons(newPersons)
+  }
+
   const handleNewNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
@@ -69,7 +76,7 @@ const App = () => {
       <Filter search = {search} handleSearch = {handleSearch}/>
       <Add addName = {addName} handleNewNameChange = {handleNewNameChange} newNumber = {newNumber} handleNewNumberChange = {handleNewNumberChange}/>
       <h2>Numbers</h2>
-        <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} deleteName={deleteName}/>
     </div>
   )
 }
