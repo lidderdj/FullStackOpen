@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/persons'
 import Filter from './components/filter'
 import Add from './components/add'
+import Notification from './components/Notification'
 import nameService from './services/persons'
 
 const App = () => {
-  const [ persons, setPersons] = useState([])
-  const [ newName, setNewName ] = useState('Add a new name')
-  const [ newNumber, setNewNumber ] = useState('Add a new number')
-  const [ showAll, setShowAll ] = useState(true)
-  const [ search, setSearch ] = useState("")
+  const [persons, setPersons] = useState([])
+  const [newName, setNewName] = useState('Add a new name')
+  const [newNumber, setNewNumber] = useState('Add a new number')
+  const [showAll, setShowAll] = useState(true)
+  const [search, setSearch] = useState("")
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     nameService
@@ -45,6 +47,12 @@ const App = () => {
              setPersons(persons.concat(response.data))
              setNewName('')
              setNewNumber('')
+             setErrorMessage(
+               `${newName} successfully added`
+               )
+               setTimeout(() => {
+                 setErrorMessage (null)
+               }, 2000)
            })
       }
   }
@@ -82,6 +90,7 @@ const App = () => {
 
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter search = {search} handleSearch = {handleSearch}/>
       <Add addName = {addName} handleNewNameChange = {handleNewNameChange} newNumber = {newNumber} handleNewNumberChange = {handleNewNumberChange}/>
       <h2>Numbers</h2>

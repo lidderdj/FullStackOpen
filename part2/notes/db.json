@@ -29,6 +29,24 @@
       "date": "2020-05-01T04:46:53.869Z",
       "important": false,
       "id": 5
+    },
+    {
+      "content": "New 1",
+      "date": "2020-05-23T22:45:16.685Z",
+      "important": true,
+      "id": 6
+    },
+    {
+      "content": "",
+      "date": "2020-05-23T22:59:23.523Z",
+      "important": true,
+      "id": 7
+    },
+    {
+      "content": "Blank note",
+      "date": "2020-05-23T23:10:55.892Z",
+      "important": true,
+      "id": 8
     }
   ]
 }
