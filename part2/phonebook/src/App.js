@@ -28,9 +28,17 @@ const App = () => {
       matchesSearch: true
     }
     if (persons.find((person) => person.name === newName)) {
-      alert(`${newName} is already in the phonebook`);
+      if(window.confirm(`${newName} is already in the phonebook. Would you like to update the number for ${newName}?`)) {
+        const person = persons.find((person) => person.name === newName)  
+        nameService
+          .update(person.id, nameObject)
+          .then(response => {
+            const newPersonsArray = persons.map((person) => person.name !== newName ? person : (response.data))
+            setPersons(newPersonsArray)
+          })
+        }
+          
     } else {
-
       nameService
            .create(nameObject)
            .then(response => {
@@ -42,10 +50,11 @@ const App = () => {
   }
 
   const deleteName = ({id}) => {
-      nameService
+      if(window.confirm("For real?")) {
+        nameService
            .deletePerson(id)
            const newPersons = persons.filter((person) => person.id !== id)
-           setPersons(newPersons)
+           setPersons(newPersons)}
   }
 
   const handleNewNameChange = (event) => {

@@ -5,13 +5,13 @@ const Persons = ({personsToShow, deleteName}) => {
     <div>
       {personsToShow.map((person) => (
         <div key={person.id}>
-          <p>Name: {person.name} 
-            Number: {person.number} 
+          <p>Name: {person.name} <br></br>
+             Number: {person.number} <br></br>
             <button 
               onClick={() => deleteName (person)}>
               Delete
-              </button>
-            </p>
+            </button>
+          </p>
         </div>
       ))}
     </div>
