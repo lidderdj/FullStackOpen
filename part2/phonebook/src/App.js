@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/persons'
 import Filter from './components/filter'
 import Add from './components/add'
-import Notification from './components/Notification'
+import Notification from './components/notification'
+import Error from './components/error'
 import nameService from './services/persons'
 
 const App = () => {
@@ -11,7 +12,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('Add a new number')
   const [showAll, setShowAll] = useState(true)
   const [search, setSearch] = useState("")
-  const [errorMessage, setErrorMessage] = useState('')
+  const [notification, setNotification] = useState('')
+  const [error, setError] = useState('')
 
   useEffect(() => {
     nameService
@@ -37,21 +39,38 @@ const App = () => {
           .then(response => {
             const newPersonsArray = persons.map((person) => person.name !== newName ? person : (response.data))
             setPersons(newPersonsArray)
+            setNotification(
+              `${newName} updated`
+              )
+              setTimeout(() => {
+                setNotification (null)
+              }, 2000)
           })
+          .catch(error => {
+            setError(
+              `${newName} has been deleted from the server`
+              )
+              setTimeout(() => {
+                setError (null)
+              }, 2000)
+            setPersons(persons.filter((person) => person.name !== newName))
+          }
+          )
         }
-          
-    } else {
+      }
+   
+      else {
       nameService
            .create(nameObject)
            .then(response => {
              setPersons(persons.concat(response.data))
              setNewName('')
              setNewNumber('')
-             setErrorMessage(
+             setNotification(
                `${newName} successfully added`
                )
                setTimeout(() => {
-                 setErrorMessage (null)
+                 setNotification (null)
                }, 2000)
            })
       }
@@ -90,7 +109,8 @@ const App = () => {
 
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={notification}/>
+      <Error message={error}/>
       <Filter search = {search} handleSearch = {handleSearch}/>
       <Add addName = {addName} handleNewNameChange = {handleNewNameChange} newNumber = {newNumber} handleNewNumberChange = {handleNewNumberChange}/>
       <h2>Numbers</h2>
