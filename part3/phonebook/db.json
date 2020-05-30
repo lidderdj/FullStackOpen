@@ -1,0 +1,16 @@
+{
+  "persons": [
+    {
+      "name": "A",
+      "number": "11",
+      "id": 1,
+      "matchesSearch": true
+    },
+    {
+      "name": "C",
+      "number": "3",
+      "id": 3,
+      "matchesSearch": true
+    }
+  ]
+}
